@@ -1,0 +1,22 @@
+/*
+ * Colours
+ */
+@import url(http://fonts.googleapis.com/css?family=Nunito:400,300);
+html,
+body {
+  color: #333;
+  font-family: Nunito; }
+
+.example {
+  align-items: center;
+  background: url("/img/bg.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: #eee;
+  display: flex;
+  font-family: 'Bitter', serif;
+  height: 100vh;
+  justify-content: center;
+  text-align: center; }
+
+/*# sourceMappingURL=main.css.map */

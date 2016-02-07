@@ -21,7 +21,7 @@ _calendar = {
     $calendar: $('[data-calendar-layout]'),
     todayEvents: [],
     hours: _constants.hours,
-    numEvents: 0,
+    uniqueId: 0,
 
     init: function() {
         this.renderCalendarHours(this.$calendar);
@@ -81,7 +81,7 @@ _controls = {
             var end = $('.controls__end-time').val();
             var description = $('.controls__desc').val();
             var calendarEvent = new Event({
-                "id": _calendar.numEvents,
+                "id": _calendar.uniqueId,
                 "start": start,
                 "end": end,
                 "description": description
@@ -91,7 +91,6 @@ _controls = {
 
         this.$calendar.on('click', '.calendar__remove-event', function(){
             var id = $(this).data('event-id');
-            console.log(id);
             _controls.removeEvent(id);
         });
     },
@@ -108,8 +107,8 @@ _controls = {
 
     addEvent: function(eventObj) {
 
-        _calendar.numEvents++;
-        if (_calendar.numEvents > (_constants.maxEvents)) {
+        this.incrementId();
+        if (_calendar.todayEvents.length === _constants.maxEvents) {
             alert('You can only have 5 events in a day');
             return;
         }
@@ -161,5 +160,9 @@ _controls = {
                 $('[data-hour="' + i + '"]').append(eventDetails);
             }
         }.bind(this));
-    }
+    },
+
+    incrementId: function() {
+        _calendar.uniqueId++;
+    },
 }

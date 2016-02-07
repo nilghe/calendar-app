@@ -5,6 +5,7 @@ $(function(){
 });
 
 function Event(eventObj) {
+    this.id = eventObj.id;
     this.date = eventObj.date;
     this.start = eventObj.start;
     this.end = eventObj.end;
@@ -12,19 +13,21 @@ function Event(eventObj) {
 };
 
 _constants = {
-    hours: 24
+    hours: 25,
+    maxEvents: 5
 }
 
 _calendar = {
     $calendar: $('[data-calendar-layout]'),
     todayEvents: [],
     hours: _constants.hours,
+    numEvents: 0,
 
     init: function() {
-        this.populateCalendarHours(this.$calendar);
+        this.renderCalendarHours(this.$calendar);
     },
 
-    populateCalendarHours: function(calendar) {
+    renderCalendarHours: function(calendar) {
         for (var i = 0; i < this.hours; i++) {
             var hoursContainer = $('<div/>', {
                 "data-hour": i,
@@ -38,6 +41,11 @@ _calendar = {
             hoursContainer.append(hour);
             calendar.append(hoursContainer);
         }
+    },
+
+    emptyCalendar: function() {
+        this.$calendar.empty();
+        this.renderCalendarHours(this.$calendar);
     }
 };
 
@@ -65,23 +73,30 @@ _controls = {
     $calendar: _calendar.$calendar,
 
     init: function() {
-        this.populateDropdown(this.$startDropdown);
-        this.populateDropdown(this.$endDropdown);
+        this.renderDropdown(this.$startDropdown);
+        this.renderDropdown(this.$endDropdown);
 
         $('.controls__add-event').on('click', function(){
             var start = $('.controls__start-time').val();
             var end = $('.controls__end-time').val();
             var description = $('.controls__desc').val();
             var calendarEvent = new Event({
+                "id": _calendar.numEvents,
                 "start": start,
                 "end": end,
                 "description": description
             });
-            this.addEvent(calendarEvent);
-        }.bind(this));
+            _controls.addEvent(calendarEvent);
+        });
+
+        this.$calendar.on('click', '.calendar__remove-event', function(){
+            var id = $(this).data('event-id');
+            console.log(id);
+            _controls.removeEvent(id);
+        });
     },
 
-    populateDropdown: function(dropdown) {
+    renderDropdown: function(dropdown) {
         for (var i = 0; i < this.hours; i++) {
             var option = $('<option />', {
                 "value": i,
@@ -92,26 +107,59 @@ _controls = {
     },
 
     addEvent: function(eventObj) {
-        _calendar.todayEvents.push(eventObj);
 
-        var startHour = eventObj.start;
-        var endHour = eventObj.end;
-        var description = eventObj.description;
-        
-        for (var i = 0; i < this.hours; i++) {
-            var eventDetails = $('<div />', {
-                "class": 'calendar__event-empty',
-                "text": '\u00A0'
-            });
-            
-            if (i > (startHour - 1) && i < (endHour)) {
-                var eventDetails = $('<div/>', {
-                    "class": 'calendar__event',
-                    "text": description
-                });
-            }
-
-            $('[data-hour="' + i + '"]').append(eventDetails);
+        _calendar.numEvents++;
+        if (_calendar.numEvents > (_constants.maxEvents)) {
+            alert('You can only have 5 events in a day');
+            return;
         }
+
+        _calendar.todayEvents.push(eventObj);
+        this.renderEvents();
+    },
+
+    removeEvent: function(id) {
+        var newArray = $.grep(_calendar.todayEvents, function(obj, index){
+            return obj.id != id
+        });
+        _calendar.todayEvents = newArray;
+        this.renderEvents();
+    },
+
+    renderEvents: function() {
+        _calendar.emptyCalendar();
+
+        $.each(_calendar.todayEvents, function(index, eventObj){
+            var startHour = eventObj.start;
+            var endHour = eventObj.end;
+            var description = eventObj.description;
+            var id = eventObj.id;
+            
+            for (var i = 0; i < this.hours; i++) {
+                var eventDetails = $('<div />', {
+                    "class": 'calendar__event-empty',
+                    "text": '\u00A0'
+                });
+                
+                if (i > (startHour - 1) && i < (endHour)) {
+
+                    eventDetails = $('<div/>', {
+                        "class": 'calendar__event',
+                        "text": description,
+                        "data-event-id": id
+                    });
+
+                    if (i === parseInt(startHour, 10)) {
+                        var closeBtn = $('<i/>', {
+                            "class": 'fa fa-times calendar__remove-event',
+                            "data-event-id": id
+                        });
+                        eventDetails.append(closeBtn);
+                    }
+                }
+
+                $('[data-hour="' + i + '"]').append(eventDetails);
+            }
+        }.bind(this));
     }
 }

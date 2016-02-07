@@ -13,18 +13,62 @@ h4,
 h5,
 h6 {
   font-family: Nunito;
+  text-align: center;
+}
+
+.main-container {
+  margin: 0 auto;
+  width: 85vw;
+}
+
+.calendar {
+  background: $calendar-background;
+  padding: 1em;
+  text-align: center;
 }
 
 .calendar__hour {
+  display: flex;
   overflow: hidden;
   width: 100%;
 }
+
 
 .calendar__hour_label,
 .calendar__event-empty,
 .calendar__event {
   float: left;
   width: 10vw;
+}
+
+.calendar__event,
+.calendar__event-empty {
+  flex: 1;
+  color: $white;
+}
+
+.calendar__event-turquoise {
+  background: $turquoise;
+}
+.calendar__event-dark-blue {
+  background: $dark-blue;
+}
+.calendar__event-green {
+  background: $green;
+}
+.calendar__event-blue {
+  background: $blue;
+}
+.calendar__event-purple {
+  background: $purple;
+}
+.calendar__event:not(:last-child),
+.calendar__event-empty:not(:last-child) {
+  margin-right: 1em;
+}
+
+.calendar__remove-event {
+  cursor: pointer;
 }
 
 .example {

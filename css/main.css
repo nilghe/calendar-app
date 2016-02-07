@@ -1917,9 +1917,20 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Nunito; }
+  font-family: Nunito;
+  text-align: center; }
+
+.main-container {
+  margin: 0 auto;
+  width: 85vw; }
+
+.calendar {
+  background: #eee;
+  padding: 1em;
+  text-align: center; }
 
 .calendar__hour {
+  display: flex;
   overflow: hidden;
   width: 100%; }
 
@@ -1928,6 +1939,33 @@ h6 {
 .calendar__event {
   float: left;
   width: 10vw; }
+
+.calendar__event,
+.calendar__event-empty {
+  flex: 1;
+  color: #fff; }
+
+.calendar__event-turquoise {
+  background: #1abc9c; }
+
+.calendar__event-dark-blue {
+  background: #34495e; }
+
+.calendar__event-green {
+  background: #2ecc71; }
+
+.calendar__event-blue {
+  background: #3498db; }
+
+.calendar__event-purple {
+  background: #9b59b6; }
+
+.calendar__event:not(:last-child),
+.calendar__event-empty:not(:last-child) {
+  margin-right: 1em; }
+
+.calendar__remove-event {
+  cursor: pointer; }
 
 .example {
   align-items: center;

@@ -1,5 +1,4 @@
 $(function(){
-    console.log('Calendar!');
     _calendar.init();
     _controls.init();
 });
@@ -10,11 +9,19 @@ function Event(eventObj) {
     this.start = eventObj.start;
     this.end = eventObj.end;
     this.description = eventObj.description;
+    this.backgroundColour = eventObj.backgroundColour;
 };
 
 _constants = {
     hours: 25,
-    maxEvents: 5
+    maxEvents: 5,
+    eventColours: [
+        'turquoise',
+        'dark-blue',
+        'green',
+        'blue',
+        'purple'
+    ]
 }
 
 _calendar = {
@@ -62,6 +69,11 @@ _helpers = {
         }
 
         return formattedTime;
+    },
+
+    randomColor: function(max, min) {
+        var randomNumber = Math.floor(Math.random() * (max - min)) + min;
+        return _constants.eventColours[randomNumber];
     }
 }
 
@@ -80,12 +92,28 @@ _controls = {
             var start = $('.controls__start-time').val();
             var end = $('.controls__end-time').val();
             var description = $('.controls__desc').val();
+            
+            var colour = _helpers.randomColor(_constants.maxEvents, 0);
+            var backgroundColour = 'calendar__event-' + colour;
+            
+            if (description === "") {
+                alert('You must enter a description.');
+                return;
+            }
+
+            if (parseInt(start, 10) > parseInt(end, 10)) {
+                alert('Your starting time must be before the ending time.');
+                return;
+            }
+
             var calendarEvent = new Event({
                 "id": _calendar.uniqueId,
                 "start": start,
                 "end": end,
-                "description": description
+                "description": description,
+                'backgroundColour': backgroundColour
             });
+
             _controls.addEvent(calendarEvent);
         });
 
@@ -132,8 +160,9 @@ _controls = {
             var startHour = eventObj.start;
             var endHour = eventObj.end;
             var description = eventObj.description;
+            var backgroundColour = eventObj.backgroundColour;
             var id = eventObj.id;
-            
+
             for (var i = 0; i < this.hours; i++) {
                 var eventDetails = $('<div />', {
                     "class": 'calendar__event-empty',
@@ -141,9 +170,9 @@ _controls = {
                 });
                 
                 if (i > (startHour - 1) && i < (endHour)) {
-
+                    
                     eventDetails = $('<div/>', {
-                        "class": 'calendar__event',
+                        "class": 'calendar__event ' + backgroundColour,
                         "text": description,
                         "data-event-id": id
                     });

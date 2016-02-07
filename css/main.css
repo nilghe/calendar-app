@@ -1909,7 +1909,10 @@ body.is-reveal-open {
 html,
 body {
   color: #333;
-  font-family: Nunito; }
+  font-family: Nunito;
+  background: url("../img/bg.jpg") no-repeat;
+  background-size: cover;
+  background-position: center; }
 
 h1,
 h2,
@@ -1917,15 +1920,17 @@ h3,
 h4,
 h5,
 h6 {
+  color: #fff;
   font-family: Nunito;
   text-align: center; }
 
 .main-container {
   margin: 0 auto;
-  width: 85vw; }
+  opacity: .9;
+  width: 75vw; }
 
 .calendar {
-  background: #eee;
+  background: #ecf0f1;
   padding: 1em;
   text-align: center; }
 

@@ -93,7 +93,6 @@ _controls = {
 
     addEvent: function(eventObj) {
         _calendar.todayEvents.push(eventObj);
-        _calendar.$calendar.append("test");
 
         var startHour = eventObj.start;
         var endHour = eventObj.end;

@@ -4,45 +4,39 @@ $(function(){
     _controls.init();
 });
 
-function CreateEvent(eventObj) {
+function Event(eventObj) {
     this.date = eventObj.date;
     this.start = eventObj.start;
     this.end = eventObj.end;
-    this.details = eventObj.details;
+    this.description = eventObj.description;
 };
+
+_constants = {
+    hours: 24
+}
 
 _calendar = {
     $calendar: $('[data-calendar-layout]'),
-    $startDropdown: $('[data-start-time]'),
-    $endDropdown: $('[data-end-time]'),
-    hours: 24,
+    todayEvents: [],
+    hours: _constants.hours,
 
     init: function() {
         this.populateCalendarHours(this.$calendar);
-        this.populateDropdown(this.$startDropdown);
-        this.populateDropdown(this.$endDropdown);
     },
 
     populateCalendarHours: function(calendar) {
-        var hoursList = $('<ul/>');
         for (var i = 0; i < this.hours; i++) {
-            var hour = $('<li/>', {
+            var hoursContainer = $('<div/>', {
                 "data-hour": i,
+                "class": 'calendar__hour'
+            });
+
+            var hour = $('<div/>', {
+                "class": 'calendar__hour_label',
                 "text": _helpers.convertToTime(i)
             });
-            hoursList.append(hour);
-        }
-
-        calendar.append(hoursList);
-    },
-
-    populateDropdown: function(dropdown) {
-        for (var i = 0; i < this.hours; i++) {
-            var option = $('<option />', {
-                "value": i,
-                "text": _helpers.convertToTime(i)
-            });
-            dropdown.append(option);
+            hoursContainer.append(hour);
+            calendar.append(hoursContainer);
         }
     }
 };
@@ -65,13 +59,60 @@ _helpers = {
 
 _controls = {
     $controls: $('.controls'),
+    $startDropdown: $('[data-start-time]'),
+    $endDropdown: $('[data-end-time]'),
+    hours: _constants.hours,
+    $calendar: _calendar.$calendar,
 
     init: function() {
+        this.populateDropdown(this.$startDropdown);
+        this.populateDropdown(this.$endDropdown);
+
         $('.controls__add-event').on('click', function(){
-            console.log('clicked');
-            var time = $('.controls__time').val();
+            var start = $('.controls__start-time').val();
+            var end = $('.controls__end-time').val();
             var description = $('.controls__desc').val();
-            console.log(time + description);
-        });
-    } 
+            var calendarEvent = new Event({
+                "start": start,
+                "end": end,
+                "description": description
+            });
+            this.addEvent(calendarEvent);
+        }.bind(this));
+    },
+
+    populateDropdown: function(dropdown) {
+        for (var i = 0; i < this.hours; i++) {
+            var option = $('<option />', {
+                "value": i,
+                "text": _helpers.convertToTime(i)
+            });
+            dropdown.append(option);
+        }
+    },
+
+    addEvent: function(eventObj) {
+        _calendar.todayEvents.push(eventObj);
+        _calendar.$calendar.append("test");
+
+        var startHour = eventObj.start;
+        var endHour = eventObj.end;
+        var description = eventObj.description;
+        
+        for (var i = 0; i < this.hours; i++) {
+            var eventDetails = $('<div />', {
+                "class": 'calendar__event-empty',
+                "text": '\u00A0'
+            });
+            
+            if (i > (startHour - 1) && i < (endHour)) {
+                var eventDetails = $('<div/>', {
+                    "class": 'calendar__event',
+                    "text": description
+                });
+            }
+
+            $('[data-hour="' + i + '"]').append(eventDetails);
+        }
+    }
 }

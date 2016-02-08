@@ -15,13 +15,13 @@ h3,
 h4,
 h5,
 h6 {
-  color: $white;
+  background: rgba(236,240,241, .5);
   font-family: Nunito;
   text-align: center;
 }
 
 .main-container {
-  margin: 0 auto;
+  margin: 0 auto 2em auto;
   opacity: .9;
   width: 75vw;
 }
@@ -30,6 +30,7 @@ h6 {
   background: $calendar-background;
   padding: 1em;
   text-align: center;
+  @include border-radius(2px);
 }
 
 .calendar__hour {
@@ -37,7 +38,6 @@ h6 {
   overflow: hidden;
   width: 100%;
 }
-
 
 .calendar__hour_label,
 .calendar__event-empty,
@@ -50,6 +50,7 @@ h6 {
 .calendar__event-empty {
   flex: 1;
   color: $white;
+  position: relative;
 }
 
 .calendar__event-turquoise {
@@ -72,19 +73,32 @@ h6 {
   margin-right: 1em;
 }
 
-.calendar__remove-event {
-  cursor: pointer;
+.controls {
+  display: flex;
+  padding: .5em;
 }
 
-.example {
-  align-items: center;
-  background: url('/img/bg.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
-  color: #eee;
-  display: flex;
-  font-family: 'Bitter', serif;
-  height: 100vh;
-  justify-content: center;
-  text-align: center;
+.controls__start-time,
+.controls__end-time,
+.controls__desc {
+  margin-right: .5em;
+}
+
+.controls__desc {
+  padding: 0 .5em;
+}
+
+.controls__add-event {
+  color: $white;
+  background: $green;
+  display: block;
+  padding: .5em 1em;
+  @include border-radius(2px);
+}
+
+.calendar__remove-event {
+  cursor: pointer;
+  top: 5px;
+  position: absolute;
+  right: 5px;
 }

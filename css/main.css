@@ -1920,19 +1920,23 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  background: rgba(236, 240, 241, 0.5);
   font-family: Nunito;
   text-align: center; }
 
 .main-container {
-  margin: 0 auto;
+  margin: 0 auto 2em auto;
   opacity: .9;
   width: 75vw; }
 
 .calendar {
   background: #ecf0f1;
   padding: 1em;
-  text-align: center; }
+  text-align: center;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px; }
 
 .calendar__hour {
   display: flex;
@@ -1948,7 +1952,8 @@ h6 {
 .calendar__event,
 .calendar__event-empty {
   flex: 1;
-  color: #fff; }
+  color: #fff;
+  position: relative; }
 
 .calendar__event-turquoise {
   background: #1abc9c; }
@@ -1969,19 +1974,32 @@ h6 {
 .calendar__event-empty:not(:last-child) {
   margin-right: 1em; }
 
-.calendar__remove-event {
-  cursor: pointer; }
-
-.example {
-  align-items: center;
-  background: url("/img/bg.jpg") no-repeat;
-  background-size: cover;
-  background-position: center;
-  color: #eee;
+.controls {
   display: flex;
-  font-family: 'Bitter', serif;
-  height: 100vh;
-  justify-content: center;
-  text-align: center; }
+  padding: .5em; }
+
+.controls__start-time,
+.controls__end-time,
+.controls__desc {
+  margin-right: .5em; }
+
+.controls__desc {
+  padding: 0 .5em; }
+
+.controls__add-event {
+  color: #fff;
+  background: #2ecc71;
+  display: block;
+  padding: .5em 1em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px; }
+
+.calendar__remove-event {
+  cursor: pointer;
+  top: 5px;
+  position: absolute;
+  right: 5px; }
 
 /*# sourceMappingURL=main.css.map */

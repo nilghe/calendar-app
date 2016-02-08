@@ -10,17 +10,19 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <main class="main-container">
+        <header>
             <h1>Calendar App</h1>
-            <section class="calendar">
-                <div class="calendar__title"></div>
-                <div class="calendar__day-view" data-calendar-layout></div>
-            </section>
+        </header>
+        <main class="main-container">
             <section class="controls">
                 <select class="controls__start-time" data-start-time></select>
                 <select class="controls__end-time" data-end-time></select>
-                <input class="controls__desc" type="text" placeholder="Description" />
-                <button class="controls__add-event">Add</button>
+                <input class="controls__desc" type="text" placeholder="Description" maxlength="15"/>
+                <button class="controls__add-event"><i class="fa fa-plus"></i></button>
+            </section>
+            <section class="calendar">
+                <div class="calendar__title"></div>
+                <div class="calendar__day-view" data-calendar-layout></div>
             </section>
         </main>
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>

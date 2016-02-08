@@ -85,8 +85,8 @@ _controls = {
     $calendar: _calendar.$calendar,
 
     init: function() {
-        this.renderDropdown(this.$startDropdown);
-        this.renderDropdown(this.$endDropdown);
+        this.renderDropdown(this.$startDropdown, 0);
+        this.renderDropdown(this.$endDropdown, 24);
 
         $('.controls__add-event').on('click', function(){
             var start = $('.controls__start-time').val();
@@ -123,12 +123,17 @@ _controls = {
         });
     },
 
-    renderDropdown: function(dropdown) {
+    renderDropdown: function(dropdown, defaultValue) {
         for (var i = 0; i < this.hours; i++) {
             var option = $('<option />', {
                 "value": i,
                 "text": _helpers.convertToTime(i)
             });
+
+            if (i === defaultValue) {
+                option.attr('selected', true);
+            }
+
             dropdown.append(option);
         }
     },
